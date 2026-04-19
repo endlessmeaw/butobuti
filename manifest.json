@@ -1,0 +1,15 @@
+{
+  "name": "LOTTOAI PRO",
+  "short_name": "LOTTOAI",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eefcf6",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "icon.png?v=2",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
