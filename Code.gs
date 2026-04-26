@@ -650,10 +650,10 @@ function getLatestLottoData_() {
     sheet = ss.getSheetByName('lottothai');
   }
 
-  // 1. ลองดึงข้อมูลจากแถวล่าสุดใน Sheet ดูก่อน
+  // 1. ลองดึงข้อมูลจากแถวบนสุด (Row 2) ใน Sheet ดูก่อน (เพราะข้อมูลใหม่จะอยู่บนสุดเสมอ)
   var lastRow = sheet.getLastRow();
   if (lastRow > 1) {
-    var data = sheet.getRange(lastRow, 1, 1, 4).getValues()[0];
+    var data = sheet.getRange(2, 1, 1, 4).getValues()[0];
     var savedDate = data[0];
     var savedFirstPrize = String(data[1]).padStart(6, '0');
     var savedLastTwo = String(data[2]).padStart(2, '0');
@@ -691,17 +691,18 @@ function getLatestLottoData_() {
       var firstPrize = match[2];       // เช่น "309612"
       var lastTwo = firstPrize.slice(-2);
       
-      // เช็คว่าตรงกับข้อมูลแถวล่าสุดใน Sheet ไหม ถ้าไม่ตรงค่อยเพิ่มแถวใหม่
+      // เช็คว่าตรงกับข้อมูลแถวที่ 2 ใน Sheet ไหม ถ้าไม่ตรงค่อยเพิ่มแถวใหม่
       var isNewDraw = true;
       if (lastRow > 1 && savedDate === drawDate) {
         isNewDraw = false;
-        // อัปเดตเวลาอัปเดตแถวเดิม
-        sheet.getRange(lastRow, 4).setValue(new Date()); 
+        // อัปเดตเวลาอัปเดตแถวที่ 2 (ข้อมูลเดิม)
+        sheet.getRange(2, 4).setValue(new Date()); 
       }
       
       if (isNewDraw) {
         var nowTimestamp = new Date();
-        sheet.appendRow([drawDate, firstPrize, lastTwo, nowTimestamp]);
+        sheet.insertRowAfter(1); // แทรกแถวใหม่ต่อจากหัวตาราง
+        sheet.getRange(2, 1, 1, 4).setValues([[drawDate, firstPrize, lastTwo, nowTimestamp]]);
         Logger.log("บันทึกข้อมูลใหม่ลง Sheet: งวด " + drawDate + " รางวัลที่ 1: " + firstPrize);
       }
       
@@ -718,9 +719,9 @@ function getLatestLottoData_() {
     Logger.log("เกิดข้อผิดพลาดในการ Scraping: " + error.message);
   }
   
-  // 3. ถ้าเกิด Error ในการ Scraping ให้ส่งข้อมูลล่าสุดจาก Sheet กลับไปแทน (ถ้ามี)
+  // 3. ถ้าเกิด Error ในการ Scraping ให้ส่งข้อมูลแถวบนสุด (Row 2) จาก Sheet กลับไปแทน (ถ้ามี)
   if (lastRow > 1) {
-    var fallbackData = sheet.getRange(lastRow, 1, 1, 3).getValues()[0];
+    var fallbackData = sheet.getRange(2, 1, 1, 3).getValues()[0];
     return {
       date: fallbackData[0],
       firstPrize: String(fallbackData[1]).padStart(6, '0'),
@@ -796,9 +797,10 @@ function scrapeHistoricalLottoData_(maxPages) {
     }
   }
   
-  // 3. บันทึกรวดเดียวลง Sheet (เพื่อความรวดเร็ว)
+  // 3. แทรกข้อมูลใหม่ไว้ด้านบนสุด (ต่อจากหัวตาราง)
   if (newRows.length > 0) {
-    sheet.getRange(lastRow + 1, 1, newRows.length, 4).setValues(newRows);
+    sheet.insertRowsAfter(1, newRows.length);
+    sheet.getRange(2, 1, newRows.length, 4).setValues(newRows);
     Logger.log("✅ บันทึกข้อมูลย้อนหลังสำเร็จทั้งหมด " + newRows.length + " งวด!");
   } else {
     Logger.log("✅ ไม่มีข้อมูลงวดใหม่ให้บันทึก (ข้อมูลอัปเดตล่าสุดอยู่แล้ว)");
