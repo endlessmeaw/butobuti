@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>LOTTOAI PRO - Ultimate Edition</title>
-
+  
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#eefcf6">
-  <link rel="apple-touch-icon" href="icon.png?v=9">
+  <link rel="apple-touch-icon" href="icon.png?v=10">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -17,199 +16,79 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  
   <script>
     tailwind.config = { darkMode: 'class' }
   </script>
 
   <style>
-    body {
-      font-family: 'Kanit', sans-serif;
-      background-color: #eefcf6;
-      overflow-x: hidden;
+    body { 
+      font-family: 'Kanit', sans-serif; 
+      background-color: #eefcf6; 
+      overflow-x: hidden; 
       transition: background-color 0.3s, color 0.3s;
     }
-
-    .glass-card {
-      background: #ffffff;
-      border-radius: 2rem;
-      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.8);
+    .glass-card { 
+      background: #ffffff; border-radius: 2rem; 
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.05); border: 1px solid rgba(255,255,255,0.8); 
       transition: all 0.3s;
     }
-
+    
     /* 🌙 สไตล์โหมดกลางคืน (Dark Mode) */
-    .dark body {
-      background-color: #0f172a;
-      color: #f8fafc;
-    }
+    .dark body { background-color: #0f172a; color: #f8fafc; }
+    .dark .glass-card { background: #1e293b; border-color: #334155; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .dark header { background-color: #0f172a !important; border-bottom: 1px solid #1e293b; }
+    .dark input, .dark select { background-color: #334155 !important; border-color: #475569 !important; color: #f8fafc !important; }
+    .dark .bg-slate-50 { background-color: #334155 !important; border-color: #475569 !important; }
+    .dark .bg-white { background-color: #1e293b !important; }
+    .dark .text-slate-800 { color: #f8fafc !important; }
+    .dark .text-slate-700 { color: #e2e8f0 !important; }
+    .dark .text-slate-600 { color: #cbd5e1 !important; }
+    .dark .border-slate-100 { border-color: #334155 !important; }
 
-    .dark .glass-card {
-      background: #1e293b;
-      border-color: #334155;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .dark header {
-      background-color: #0f172a !important;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .dark input,
-    .dark select {
-      background-color: #334155 !important;
-      border-color: #475569 !important;
-      color: #f8fafc !important;
-    }
-
-    .dark .bg-slate-50 {
-      background-color: #334155 !important;
-      border-color: #475569 !important;
-    }
-
-    .dark .bg-white {
-      background-color: #1e293b !important;
-    }
-
-    .dark .text-slate-800 {
-      color: #f8fafc !important;
-    }
-
-    .dark .text-slate-700 {
-      color: #e2e8f0 !important;
-    }
-
-    .dark .text-slate-600 {
-      color: #cbd5e1 !important;
-    }
-
-    .dark .border-slate-100 {
-      border-color: #334155 !important;
-    }
-
-    [x-cloak] {
-      display: none !important;
-    }
-
-    .bullet-list li::marker {
-      color: #10b981;
-      font-size: 1.2em;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .toast-enter {
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .chat-bubble {
-      max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 1.5rem;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    .chat-user {
-      background: #10b981;
-      color: white;
-      border-bottom-right-radius: 0.25rem;
-      align-self: flex-end;
-    }
-
-    .chat-ai {
-      background: #f8fafc;
-      color: #334155;
-      border: 1px solid #e2e8f0;
-      border-bottom-left-radius: 0.25rem;
-      align-self: flex-start;
-    }
-
-    .dark .chat-ai {
-      background: #334155;
-      color: #e2e8f0;
-      border-color: #475569;
-    }
-
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
+    [x-cloak] { display: none !important; }
+    .bullet-list li::marker { color: #10b981; font-size: 1.2em; }
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .toast-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 1.5rem; font-size: 14px; font-weight: 600; line-height: 1.5; }
+    .chat-user { background: #10b981; color: white; border-bottom-right-radius: 0.25rem; align-self: flex-end; }
+    .chat-ai { background: #f8fafc; color: #334155; border: 1px solid #e2e8f0; border-bottom-left-radius: 0.25rem; align-self: flex-start; }
+    .dark .chat-ai { background: #334155; color: #e2e8f0; border-color: #475569; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
   </style>
 </head>
-
 <body x-data="lottoApp()" x-init="initApp()" class="min-h-screen flex flex-col text-slate-800">
 
-  <div x-show="toast.show" x-cloak
-    class="toast-enter fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[100] bg-slate-800 dark:bg-emerald-600 text-white px-6 py-3.5 rounded-full shadow-2xl text-sm flex items-center gap-2 w-max">
+  <div x-show="toast.show" x-cloak class="toast-enter fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[100] bg-slate-800 dark:bg-emerald-600 text-white px-6 py-3.5 rounded-full shadow-2xl text-sm flex items-center gap-2 w-max">
     <span class="text-lg" x-text="toast.icon"></span><span class="font-medium" x-text="toast.msg"></span>
   </div>
 
-  <div x-show="!isLoggedIn" x-cloak
-    class="fixed inset-0 z-[60] bg-[#eefcf6] dark:bg-slate-900 flex items-center justify-center p-6">
+  <div x-show="!isLoggedIn" x-cloak class="fixed inset-0 z-[60] bg-[#eefcf6] dark:bg-slate-900 flex items-center justify-center p-6">
     <div class="glass-card w-full max-w-sm p-8 text-center shadow-2xl">
-      <div
-        class="w-20 h-20 bg-emerald-500 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-200 text-white font-black text-4xl">
-        L</div>
-      <h2 class="text-2xl font-black text-emerald-800 dark:text-emerald-400 mb-2"
-        x-text="authMode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'"></h2>
+      <div class="w-20 h-20 bg-emerald-500 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-200 text-white font-black text-4xl">L</div>
+      <h2 class="text-2xl font-black text-emerald-800 dark:text-emerald-400 mb-2" x-text="authMode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'"></h2>
       <p class="text-sm text-slate-400 mb-8">LOTTOAI PRO EDITION</p>
       <div class="space-y-4 text-left">
-        <div><label class="text-[11px] font-bold text-slate-400 uppercase ml-2">ชื่อผู้ใช้</label><input type="text"
-            x-model="authData.username"
-            class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-400 transition-all font-bold text-slate-700">
-        </div>
-        <div><label class="text-[11px] font-bold text-slate-400 uppercase ml-2">รหัสผ่าน</label><input type="password"
-            x-model="authData.password" @keyup.enter="handleAuth()"
-            class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-400 transition-all font-bold text-slate-700">
-        </div>
+        <div><label class="text-[11px] font-bold text-slate-400 uppercase ml-2">ชื่อผู้ใช้</label><input type="text" x-model="authData.username" class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-400 transition-all font-bold text-slate-700"></div>
+        <div><label class="text-[11px] font-bold text-slate-400 uppercase ml-2">รหัสผ่าน</label><input type="password" x-model="authData.password" @keyup.enter="handleAuth()" class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-400 transition-all font-bold text-slate-700"></div>
       </div>
-      <button @click="handleAuth()" :disabled="loading"
-        class="w-full mt-8 bg-emerald-500 text-white py-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50">
+      <button @click="handleAuth()" :disabled="loading" class="w-full mt-8 bg-emerald-500 text-white py-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50">
         <span x-show="!loading" x-text="authMode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิกใหม่'"></span>
-        <span x-show="loading" class="flex justify-center items-center gap-2"><svg class="animate-spin h-5 w-5"
-            viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none">
-            </circle>
-            <path class="opacity-75" fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-          </svg> รอสักครู่...</span>
+        <span x-show="loading" class="flex justify-center items-center gap-2"><svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> รอสักครู่...</span>
       </button>
-      <p @click="authMode = authMode === 'login' ? 'register' : 'login'"
-        class="mt-6 text-sm text-slate-500 font-bold cursor-pointer hover:text-emerald-600 transition-colors"
-        x-text="authMode === 'login' ? 'ยังไม่มีบัญชี? สมัครสมาชิก' : 'มีบัญชีแล้ว? เข้าสู่ระบบ'"></p>
+      <p @click="authMode = authMode === 'login' ? 'register' : 'login'" class="mt-6 text-sm text-slate-500 font-bold cursor-pointer hover:text-emerald-600 transition-colors" x-text="authMode === 'login' ? 'ยังไม่มีบัญชี? สมัครสมาชิก' : 'มีบัญชีแล้ว? เข้าสู่ระบบ'"></p>
     </div>
   </div>
 
   <div x-show="isLoggedIn" x-cloak class="flex flex-col min-h-screen">
-
+    
     <div x-show="isMenuOpen" x-cloak class="fixed inset-0 z-50 flex">
-      <div x-show="isMenuOpen" x-transition.opacity.duration.300ms
-        class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="isMenuOpen = false"></div>
-      <div x-show="isMenuOpen" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
-        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0"
-        x-transition:leave-end="-translate-x-full"
-        class="relative w-72 max-w-[80vw] bg-white dark:bg-slate-900 h-full shadow-2xl flex flex-col">
+      <div x-show="isMenuOpen" x-transition.opacity.duration.300ms class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="isMenuOpen = false"></div>
+      <div x-show="isMenuOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative w-72 max-w-[80vw] bg-white dark:bg-slate-900 h-full shadow-2xl flex flex-col">
         <div class="p-8 bg-emerald-50 dark:bg-slate-800 border-b border-emerald-100 dark:border-slate-700">
-          <div
-            class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-black text-2xl mb-4 shadow-md shadow-emerald-200">
-            L</div>
-          <h2 class="text-2xl font-black text-slate-800 leading-none">LOTTOAI</h2>
-          <p class="text-[10px] text-emerald-600 font-bold tracking-widest mt-1">PRO EDITION</p>
+          <div class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-black text-2xl mb-4 shadow-md shadow-emerald-200">L</div>
+          <h2 class="text-2xl font-black text-slate-800 leading-none">LOTTOAI</h2><p class="text-[10px] text-emerald-600 font-bold tracking-widest mt-1">PRO EDITION</p>
         </div>
         <div class="flex-1 overflow-y-auto p-4 space-y-1.5">
           <template x-for="item in [
@@ -220,403 +99,138 @@
             {id: 'ความแม่น', icon: '⚙️', name: 'ตั้งค่า Engine'},
             {id: 'ประวัติ', icon: '📝', name: 'ประวัติวิเคราะห์'}
           ]">
-            <button @click="switchTab(item.id)"
-              :class="tab === item.id ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none' : 'text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'"
-              class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200">
-              <span class="text-xl" x-text="item.icon"></span><span class="font-bold text-[15px]"
-                x-text="item.name"></span>
+            <button @click="switchTab(item.id)" :class="tab === item.id ? 'bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none' : 'text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'" class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200">
+              <span class="text-xl" x-text="item.icon"></span><span class="font-bold text-[15px]" x-text="item.name"></span>
             </button>
           </template>
         </div>
         <div class="p-6 border-t border-slate-100 dark:border-slate-700 space-y-3">
-          <div class="text-center text-[10px] text-slate-400 font-bold">เข้าสู่ระบบโดย: <span
-              class="text-emerald-600 dark:text-emerald-400" x-text="username"></span></div>
-          <button @click="logout()"
-            class="w-full bg-rose-50 dark:bg-rose-500/10 text-rose-500 py-3.5 rounded-2xl font-bold hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-colors">ออกจากระบบ</button>
+          <div class="text-center text-[10px] text-slate-400 font-bold">เข้าสู่ระบบโดย: <span class="text-emerald-600 dark:text-emerald-400" x-text="username"></span></div>
+          <button @click="logout()" class="w-full bg-rose-50 dark:bg-rose-500/10 text-rose-500 py-3.5 rounded-2xl font-bold hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-colors">ออกจากระบบ</button>
         </div>
       </div>
     </div>
 
     <header class="bg-[#eefcf6] p-4 flex justify-between items-center sticky top-0 z-40 pb-2">
       <div class="flex items-center gap-3">
-        <button @click="isMenuOpen = true"
-          class="p-2.5 bg-white shadow-sm rounded-2xl text-slate-700 active:scale-95 transition-transform"><svg
-            class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg></button>
-        <h1 class="text-2xl font-black text-emerald-800 dark:text-emerald-400 tracking-tight"
-          x-text="tab === 'ทำนายฝัน' ? 'AI หมอดูฝัน' : (tab === 'สำนักดัง' ? 'เลขสำนักดัง' : tab)"></h1>
+        <button @click="isMenuOpen = true" class="p-2.5 bg-white shadow-sm rounded-2xl text-slate-700 active:scale-95 transition-transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+        <h1 class="text-2xl font-black text-emerald-800 dark:text-emerald-400 tracking-tight" x-text="tab === 'ทำนายฝัน' ? 'AI หมอดูฝัน' : (tab === 'สำนักดัง' ? 'เลขสำนักดัง' : tab)"></h1>
       </div>
       <div class="flex items-center gap-2">
-        <button @click="toggleDarkMode()"
-          class="w-9 h-9 flex items-center justify-center bg-white rounded-xl shadow-sm text-slate-400 hover:text-amber-500 transition-colors active:scale-90 relative">
+        <button @click="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center bg-white rounded-xl shadow-sm text-slate-400 hover:text-amber-500 transition-colors active:scale-90 relative">
           <span class="text-lg" x-text="isDarkMode ? '☀️' : '🌙'"></span>
         </button>
-
-        <button @click="requestNotification()"
-          class="w-9 h-9 flex items-center justify-center bg-white rounded-xl shadow-sm text-slate-400 hover:text-amber-500 hover:bg-amber-50 transition-colors active:scale-90 relative">
+        
+        <button @click="requestNotification()" class="w-9 h-9 flex items-center justify-center bg-white rounded-xl shadow-sm text-slate-400 hover:text-amber-500 hover:bg-amber-50 transition-colors active:scale-90 relative">
           <span class="text-lg">🔔</span>
-          <div x-show="notificationEnabled"
-            class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-800">
-          </div>
+          <div x-show="notificationEnabled" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-800"></div>
         </button>
       </div>
     </header>
 
     <main class="p-4 max-w-md mx-auto w-full flex-1">
-
+      
       <div x-show="tab === 'สถิติ'" x-cloak x-transition.opacity.duration.300ms class="h-full flex flex-col gap-5 mt-2">
-        <div class="glass-card p-6">
-          <div class="flex items-center gap-2 mb-1"><span
-              class="bg-blue-50 dark:bg-blue-500/20 p-1.5 rounded-lg text-blue-600 dark:text-blue-400 text-sm">📈</span>
-            <h2 class="font-black text-slate-800 text-lg">ความถี่เลข 0-9 ย้อนหลัง</h2>
-          </div>
-          <p class="text-[11px] text-slate-400 mb-4 font-medium">สถิติเจาะลึกจาก 10 งวดล่าสุด</p>
-          <div class="relative h-[25vh] min-h-[160px] w-full"><canvas id="freqChart"></canvas></div>
-        </div>
-        <div class="glass-card p-6">
-          <div class="flex items-center gap-2 mb-1"><span
-              class="bg-emerald-50 dark:bg-emerald-500/20 p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 text-sm">📊</span>
-            <h2 class="font-black text-slate-800 text-lg">อัตราความแม่นยำ</h2>
-          </div>
-          <p class="text-[11px] text-slate-400 mb-4 font-medium">Win Rate เปรียบเทียบ 3 Engine (ย้อนหลัง 30 งวด)</p>
-          <div class="relative h-[22vh] min-h-[150px] w-full"><canvas id="engineChart"></canvas></div>
-        </div>
-        <div class="glass-card p-6 mb-6">
-          <div class="flex items-center gap-2 mb-1"><span
-              class="bg-amber-50 dark:bg-amber-500/20 p-1.5 rounded-lg text-amber-500 dark:text-amber-400 text-sm">🧩</span>
-            <h2 class="font-black text-slate-800 text-lg">สัดส่วนสูตรที่เข้าเป้า</h2>
-          </div>
-          <p class="text-[11px] text-slate-400 mb-4 font-medium">เจาะลึก 75 สูตรหลังบ้านแยกตามหมวดหมู่</p>
-          <div class="relative h-[25vh] min-h-[160px] w-full flex justify-center"><canvas id="formulaChart"></canvas>
-          </div>
-        </div>
+        <div class="glass-card p-6"><div class="flex items-center gap-2 mb-1"><span class="bg-blue-50 dark:bg-blue-500/20 p-1.5 rounded-lg text-blue-600 dark:text-blue-400 text-sm">📈</span><h2 class="font-black text-slate-800 text-lg">ความถี่เลข 0-9 ย้อนหลัง</h2></div><p class="text-[11px] text-slate-400 mb-4 font-medium">สถิติเจาะลึกจาก 10 งวดล่าสุด</p><div class="relative h-[25vh] min-h-[160px] w-full"><canvas id="freqChart"></canvas></div></div>
+        <div class="glass-card p-6"><div class="flex items-center gap-2 mb-1"><span class="bg-emerald-50 dark:bg-emerald-500/20 p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 text-sm">📊</span><h2 class="font-black text-slate-800 text-lg">อัตราความแม่นยำ</h2></div><p class="text-[11px] text-slate-400 mb-4 font-medium">Win Rate เปรียบเทียบ 3 Engine (ย้อนหลัง 30 งวด)</p><div class="relative h-[22vh] min-h-[150px] w-full"><canvas id="engineChart"></canvas></div></div>
+        <div class="glass-card p-6 mb-6"><div class="flex items-center gap-2 mb-1"><span class="bg-amber-50 dark:bg-amber-500/20 p-1.5 rounded-lg text-amber-500 dark:text-amber-400 text-sm">🧩</span><h2 class="font-black text-slate-800 text-lg">สัดส่วนสูตรที่เข้าเป้า</h2></div><p class="text-[11px] text-slate-400 mb-4 font-medium">เจาะลึก 75 สูตรหลังบ้านแยกตามหมวดหมู่</p><div class="relative h-[25vh] min-h-[160px] w-full flex justify-center"><canvas id="formulaChart"></canvas></div></div>
       </div>
 
       <div x-show="tab === 'สำนักดัง'" x-cloak x-transition.opacity.duration.300ms class="mt-2">
-        <div class="flex justify-between items-center mb-5 px-2">
-          <p class="text-[11px] font-bold text-slate-500">อัปเดตข้อมูลแบบ Real-time</p><span
-            class="text-[10px] bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 px-2 py-1 rounded-md font-bold">HOT
-            🔥</span>
-        </div>
+        <div class="flex justify-between items-center mb-5 px-2"><p class="text-[11px] font-bold text-slate-500">อัปเดตข้อมูลแบบ Real-time</p><span class="text-[10px] bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 px-2 py-1 rounded-md font-bold">HOT 🔥</span></div>
         <div class="space-y-4">
           <template x-for="guru in trendingGurus">
             <div class="glass-card p-5 relative overflow-hidden group">
-              <div
-                class="absolute -right-4 -top-4 w-16 h-16 bg-gradient-to-br from-emerald-50 dark:from-emerald-900/30 to-transparent rounded-full opacity-50">
-              </div>
+              <div class="absolute -right-4 -top-4 w-16 h-16 bg-gradient-to-br from-emerald-50 dark:from-emerald-900/30 to-transparent rounded-full opacity-50"></div>
               <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-3">
-                  <div class="text-2xl" x-text="guru.icon"></div>
-                  <div>
-                    <h3 class="font-black text-slate-800 text-base" x-text="guru.name"></h3>
-                    <p class="text-[10px] text-slate-400 font-medium" x-text="guru.desc"></p>
-                  </div>
-                </div>
-                <div class="bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow-sm"
-                  x-text="'ความแม่น ' + guru.accuracy + '%'"></div>
+                <div class="flex items-center gap-3"><div class="text-2xl" x-text="guru.icon"></div><div><h3 class="font-black text-slate-800 text-base" x-text="guru.name"></h3><p class="text-[10px] text-slate-400 font-medium" x-text="guru.desc"></p></div></div>
+                <div class="bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow-sm" x-text="'ความแม่น ' + guru.accuracy + '%'"></div>
               </div>
-              <div class="flex gap-2 mt-2"><template x-for="num in guru.numbers"><span
-                    class="bg-slate-50 border border-slate-100 text-slate-700 font-black text-lg px-4 py-1.5 rounded-xl shadow-sm"
-                    x-text="num"></span></template></div>
+              <div class="flex gap-2 mt-2"><template x-for="num in guru.numbers"><span class="bg-slate-50 border border-slate-100 text-slate-700 font-black text-lg px-4 py-1.5 rounded-xl shadow-sm" x-text="num"></span></template></div>
             </div>
           </template>
         </div>
       </div>
 
       <div x-show="tab === 'วิเคราะห์'" x-cloak x-transition.opacity.duration.300ms class="mt-2">
-        <div class="glass-card p-6 mb-5">
-          <div class="flex justify-between items-center mb-3"><label
-              class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">เลือกรายการหวย</label>
-            <div class="bg-emerald-50 dark:bg-emerald-500/20 px-2.5 py-1 rounded-lg flex items-center gap-1"><span
-                class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold"
-                x-text="'กำลังวัน: ' + currentDayName"></span></div>
-          </div><select x-model="form.lotteryType"
-            class="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 outline-none font-black text-slate-700 text-lg focus:ring-2 focus:ring-emerald-400 transition-all cursor-pointer">
-            <option value="รัฐบาลไทย">🇹🇭 รัฐบาลไทย</option>
-            <option value="ลาวพัฒนา">🇱🇦 ลาวพัฒนา</option>
-            <option value="ฮานอยอาเซียน">🇻🇳 ฮานอยอาเซียน</option>
-            <option value="หวยออมสิน">🏦 หวยออมสิน</option>
-          </select>
-        </div>
-        <div class="glass-card p-8 text-center mb-5 relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-full h-1.5 bg-emerald-400"></div>
-          <p class="text-xs text-slate-400 mb-4 font-extrabold uppercase tracking-widest">ผลรางวัลงวดล่าสุด</p><input
-            type="number" x-model="form.inputNumbers" placeholder="000000"
-            class="w-full text-center text-5xl font-black tracking-[0.2em] text-slate-300 dark:text-slate-500 focus:text-slate-800 dark:focus:text-white bg-transparent outline-none transition-all">
-        </div>
-        <div class="flex gap-3 mb-6"><button @click="analyze()" :disabled="loading"
-            class="flex-[3] bg-emerald-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-emerald-200 dark:shadow-none active:scale-95 transition-all text-lg flex justify-center items-center disabled:opacity-50"><span
-              x-show="!loading">🎯 เริ่มวิเคราะห์</span><span x-show="loading" class="flex items-center gap-2"><svg
-                class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none">
-                </circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
-              </svg> ประมวลผล...</span></button><button
-            @click="form.inputNumbers = ''; result = null; combos = {two:[], three:[]}"
-            class="flex-1 bg-white text-slate-500 border border-slate-200 py-4 rounded-2xl font-black hover:bg-rose-50 hover:text-rose-500 transition-colors">ล้าง</button>
-        </div>
-
-        <div x-show="result" x-transition.opacity.duration.500ms
-          class="bg-[#eefcf6] dark:bg-slate-900 -mx-4 px-4 pb-6 pt-2">
-
-          <!-- เด่น 2 ตัว -->
-          <div class="glass-card p-6 mb-4" x-show="result?.topTwo">
-            <h3 class="text-center text-sm font-extrabold text-emerald-800 dark:text-emerald-400 mb-5 flex justify-center items-center gap-1.5">
-              ✨ เด่น 2 ตัว
-            </h3>
-            <div class="flex justify-center items-center gap-6">
-              <div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-500 rounded-full flex items-center justify-center text-white text-[2.5rem] font-black shadow-lg shadow-amber-200" x-text="result?.topTwo?.[0]"></div>
-              <div class="text-slate-200 font-black text-2xl">-</div>
-              <div class="w-20 h-20 bg-gradient-to-br from-rose-500 to-rose-600 rounded-full flex items-center justify-center text-white text-[2.5rem] font-black shadow-lg shadow-rose-200" x-text="result?.topTwo?.[1]"></div>
+        <div class="glass-card p-6 mb-5"><div class="flex justify-between items-center mb-3"><label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">เลือกรายการหวย</label><div class="bg-emerald-50 dark:bg-emerald-500/20 px-2.5 py-1 rounded-lg flex items-center gap-1"><span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold" x-text="'กำลังวัน: ' + currentDayName"></span></div></div><select x-model="form.lotteryType" class="w-full p-4 rounded-2xl border border-slate-100 bg-slate-50 outline-none font-black text-slate-700 text-lg focus:ring-2 focus:ring-emerald-400 transition-all cursor-pointer"><option value="รัฐบาลไทย">🇹🇭 รัฐบาลไทย</option><option value="ลาวพัฒนา">🇱🇦 ลาวพัฒนา</option><option value="ฮานอยอาเซียน">🇻🇳 ฮานอยอาเซียน</option><option value="หวยออมสิน">🏦 หวยออมสิน</option></select></div>
+        <div class="glass-card p-8 text-center mb-5 relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1.5 bg-emerald-400"></div><p class="text-xs text-slate-400 mb-4 font-extrabold uppercase tracking-widest">ผลรางวัลงวดล่าสุด</p><input type="number" x-model="form.inputNumbers" placeholder="000000" class="w-full text-center text-5xl font-black tracking-[0.2em] text-slate-300 dark:text-slate-500 focus:text-slate-800 dark:focus:text-white bg-transparent outline-none transition-all"></div>
+        <div class="flex gap-3 mb-6"><button @click="analyze()" :disabled="loading" class="flex-[3] bg-emerald-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-emerald-200 dark:shadow-none active:scale-95 transition-all text-lg flex justify-center items-center disabled:opacity-50"><span x-show="!loading">🎯 เริ่มวิเคราะห์</span><span x-show="loading" class="flex items-center gap-2"><svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ประมวลผล...</span></button><button @click="form.inputNumbers = ''; result = null; combos = {two:[], three:[]}" class="flex-1 bg-white text-slate-500 border border-slate-200 py-4 rounded-2xl font-black hover:bg-rose-50 hover:text-rose-500 transition-colors">ล้าง</button></div>
+        
+        <div id="capture-area" x-show="result" x-transition.opacity.duration.500ms class="bg-[#eefcf6] dark:bg-slate-900 -mx-4 px-4 pb-6 pt-2 overflow-hidden">
+          <div id="watermark" class="hidden text-center mb-6 mt-4">
+            <div class="flex justify-center items-center gap-2 mb-1">
+              <div class="w-6 h-6 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-black text-sm">L</div>
+              <h2 class="text-xl font-black text-slate-800 dark:text-white">LOTTOAI PRO</h2>
             </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium" x-text="'ผลวิเคราะห์ ' + form.lotteryType + ' (สูตรกำลังวัน: ' + currentDayName + ')'"></p>
           </div>
 
-          <!-- วิน 5 ตัว -->
           <div class="glass-card p-6 mb-4">
             <div class="flex justify-between items-center mb-6">
-              <div class="flex items-center gap-2"><span class="text-xl">🏆</span>
-                <p class="text-sm text-emerald-800 dark:text-emerald-400 font-extrabold">วิน 5 ตัว</p>
-              </div>
-              <div class="flex gap-2">
-                <button @click="copyResult()"
-                  class="text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-2 rounded-xl font-bold flex items-center gap-1">📋
-                  คัดลอก</button>
-                <button @click="shareAsVIPImage()"
-                  class="text-[10px] bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 px-3 py-2 rounded-xl font-bold flex items-center gap-1">🎫
-                  แชร์สลิป VIP</button>
+              <div class="flex items-center gap-2"><span class="text-xl">✨</span><p class="text-sm text-emerald-800 dark:text-emerald-400 font-extrabold">เลขเด่น AI แนะนำ</p></div>
+              <div class="flex gap-2" data-html2canvas-ignore>
+                <button @click="copyResult()" class="text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-2 rounded-xl font-bold flex items-center gap-1">📋 คัดลอก</button>
+                <button @click="shareAsImage()" class="text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-3 py-2 rounded-xl font-bold flex items-center gap-1">🖼️ แชร์ภาพ</button>
               </div>
             </div>
-            <div class="flex justify-center gap-3 px-1">
-              <template x-for="(num, index) in (result?.topFive || result?.prediction)">
+            <div class="flex justify-between px-2">
+              <template x-for="num in result?.prediction">
                 <div class="flex flex-col items-center">
-                  <span
-                    class="text-3xl font-black text-white w-[3.25rem] h-[3.25rem] flex items-center justify-center rounded-full shadow-md"
-                    :class="['bg-amber-500', 'bg-rose-600', 'bg-emerald-500', 'bg-blue-500', 'bg-purple-500', 'bg-slate-500'][index]"
-                    x-text="num"></span>
+                  <span class="text-4xl font-black text-slate-800 bg-slate-50 w-16 h-16 flex items-center justify-center rounded-[1.2rem] shadow-sm border border-slate-100 mb-3" x-text="num"></span>
+                  <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-sm"></div>
                 </div>
               </template>
             </div>
           </div>
-
+          
           <div class="grid grid-cols-2 gap-4">
             <div class="glass-card p-5">
-              <h3 class="text-xs font-extrabold text-slate-700 mb-4 flex items-center gap-1.5"><span
-                  class="bg-amber-100 dark:bg-amber-500/20 p-1 rounded-md text-[10px]">🎯</span> เจาะ</h3>
-              <div class="flex flex-wrap gap-2"><template x-for="c in combos.two"><span
-                    class="text-lg font-black text-slate-700 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-3 rounded-xl border border-emerald-100 dark:border-emerald-800/50 min-w[3.5rem] text-center"
-                    x-text="c"></span></template></div>
+              <h3 class="text-xs font-extrabold text-slate-700 mb-4 flex items-center gap-1.5"><span class="bg-amber-100 dark:bg-amber-500/20 p-1 rounded-md text-[10px]">✌️</span> 2 ตัว (บน-ล่าง)</h3>
+              <div class="flex flex-wrap gap-2"><template x-for="c in combos.two"><span class="text-xs font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100" x-text="c"></span></template></div>
             </div>
             <div class="bg-emerald-500 p-5 rounded-[2rem] shadow-lg shadow-emerald-200 dark:shadow-none text-white">
-              <h3 class="text-xs font-extrabold mb-4 flex items-center gap-1.5"><span
-                  class="bg-emerald-400 p-1 rounded-md text-[10px]">🤟</span> 3 ตัว (เต็ง-โต๊ด)</h3>
-              <div class="flex flex-wrap gap-2"><template x-for="c in combos.three"><span
-                    class="text-xs font-bold text-emerald-900 bg-white px-3 py-2 rounded-xl"
-                    x-text="c"></span></template></div>
+              <h3 class="text-xs font-extrabold mb-4 flex items-center gap-1.5"><span class="bg-emerald-400 p-1 rounded-md text-[10px]">🤟</span> 3 ตัว (เต็ง-โต๊ด)</h3>
+              <div class="flex flex-wrap gap-2"><template x-for="c in combos.three"><span class="text-xs font-bold text-emerald-900 bg-white px-3 py-2 rounded-xl" x-text="c"></span></template></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="vip-slip"
-        class="fixed -left-[9999px] w-[450px] bg-gradient-to-b from-slate-900 to-slate-800 p-8 rounded-3xl border border-slate-700 text-white shadow-2xl"
-        style="font-family: 'Kanit', sans-serif;">
-        <div class="text-center border-b border-slate-700 pb-5 mb-6 relative">
-          <div class="absolute top-0 right-0 opacity-20 text-6xl">✨</div>
-          <div
-            class="inline-block bg-gradient-to-r from-amber-400 to-amber-600 text-slate-900 font-black px-4 py-1 rounded-full mb-3 tracking-widest text-xs shadow-lg shadow-amber-500/20">
-            VIP PREMIUM TICKET</div>
-          <h1 class="text-4xl font-black text-white tracking-tight">LOTTOAI <span class="text-amber-400">PRO</span></h1>
-          <p class="text-sm text-slate-400 mt-2 font-medium bg-slate-800 inline-block px-4 py-1 rounded-lg"
-            x-text="'ผลวิเคราะห์ ' + form.lotteryType + ' (สูตร: ' + currentDayName + ')'"></p>
-        </div>
-
-        <div class="mb-6 bg-slate-900/50 p-6 rounded-3xl border border-slate-700 shadow-inner">
-          <div class="flex justify-center items-center gap-2 mb-5">
-            <span class="w-8 h-[1px] bg-amber-500/50"></span>
-            <p class="text-amber-400 font-bold text-sm tracking-widest">เลขเด่น AI แนะนำ</p>
-            <span class="w-8 h-[1px] bg-amber-500/50"></span>
-          </div>
-          <div class="flex justify-center gap-3">
-            <template x-for="num in result?.prediction">
-              <div
-                class="w-14 h-14 bg-gradient-to-br from-slate-700 to-slate-800 border border-slate-500 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-[0_0_15px_rgba(245,158,11,0.15)]"
-                x-text="num"></div>
-            </template>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 text-center">
-            <p class="text-xs text-slate-400 font-bold mb-3 tracking-wider">✌️ 2 ตัว (บน-ล่าง)</p>
-            <p class="text-xl font-bold text-amber-300 leading-relaxed tracking-wide" x-text="combos.two.join(', ')">
-            </p>
-          </div>
-          <div
-            class="bg-gradient-to-br from-emerald-900/80 to-emerald-800/80 p-5 rounded-2xl border border-emerald-700/50 text-center shadow-inner">
-            <p class="text-xs text-emerald-400/80 font-bold mb-3 tracking-wider">🤟 3 ตัว (เต็ง-โต๊ด)</p>
-            <p class="text-xl font-bold text-emerald-300 leading-relaxed tracking-wide"
-              x-text="combos.three.join(', ')"></p>
-          </div>
-        </div>
-
-        <div class="text-center pt-5 border-t border-slate-700 flex justify-between items-center px-2">
-          <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Generated by LOTTOAI Engine V10</p>
-          <p class="text-[10px] text-amber-500/70 font-bold bg-amber-500/10 px-2 py-1 rounded-md">@lottoai_pro</p>
-        </div>
-      </div>
-
-      <div x-show="tab === 'ทำนายฝัน'" x-cloak x-transition.opacity.duration.300ms
-        class="mt-2 h-[calc(100vh-140px)] flex flex-col relative">
+      <div x-show="tab === 'ทำนายฝัน'" x-cloak x-transition.opacity.duration.300ms class="mt-2 h-[calc(100vh-140px)] flex flex-col relative">
         <div class="glass-card flex-1 p-4 mb-4 overflow-y-auto scrollbar-hide flex flex-col gap-4" id="chatContainer">
-          <div class="flex gap-3">
-            <div
-              class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">
-              🔮</div>
-            <div class="chat-bubble chat-ai shadow-sm">สวัสดีครับ 🙏 ผมคือ AI หมอดูประจำแอป เมื่อคืนคุณฝันเห็นอะไร
-              เล่าให้ผมฟังได้เลยครับ เดี๋ยวผมจะถอดรหัสเป็นเลขมงคลให้ครับ ✨</div>
-          </div>
-          <template x-for="(msg, index) in chatHistory" :key="index">
-            <div class="flex gap-3" :class="msg.sender === 'user' ? 'flex-row-reverse' : ''">
-              <div x-show="msg.sender === 'ai'"
-                class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">
-                🔮</div>
-              <div class="chat-bubble shadow-sm" :class="msg.sender === 'user' ? 'chat-user' : 'chat-ai'"
-                x-html="msg.text"></div>
-            </div>
-          </template>
-          <div x-show="isBotTyping" class="flex gap-3">
-            <div
-              class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">
-              🔮</div>
-            <div class="chat-bubble chat-ai shadow-sm flex items-center gap-1.5 h-10 px-4">
-              <div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce"></div>
-              <div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce"
-                style="animation-delay: 0.1s"></div>
-              <div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce"
-                style="animation-delay: 0.2s"></div>
-            </div>
-          </div>
+          <div class="flex gap-3"><div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">🔮</div><div class="chat-bubble chat-ai shadow-sm">สวัสดีครับ 🙏 ผมคือ AI หมอดูประจำแอป เมื่อคืนคุณฝันเห็นอะไร เล่าให้ผมฟังได้เลยครับ เดี๋ยวผมจะถอดรหัสเป็นเลขมงคลให้ครับ ✨</div></div>
+          <template x-for="(msg, index) in chatHistory" :key="index"><div class="flex gap-3" :class="msg.sender === 'user' ? 'flex-row-reverse' : ''"><div x-show="msg.sender === 'ai'" class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">🔮</div><div class="chat-bubble shadow-sm" :class="msg.sender === 'user' ? 'chat-user' : 'chat-ai'" x-html="msg.text"></div></div></template>
+          <div x-show="isBotTyping" class="flex gap-3"><div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-xl shrink-0">🔮</div><div class="chat-bubble chat-ai shadow-sm flex items-center gap-1.5 h-10 px-4"><div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-slate-300 dark:bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div></div>
         </div>
         <div class="glass-card p-2 flex items-center gap-2 mt-auto">
-          <input type="text" x-model="dreamText" @keyup.enter="sendDreamChat()"
-            class="flex-1 bg-slate-50 border-none outline-none font-bold text-slate-700 px-4 py-3 rounded-2xl placeholder-slate-400 text-sm"
-            placeholder="พิมพ์ความฝันของคุณ...">
-          <button @click="sendDreamChat()" :disabled="!dreamText || isBotTyping"
-            class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-md active:scale-90 transition-transform disabled:opacity-50 shrink-0"><svg
-              class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg></button>
+          <input type="text" x-model="dreamText" @keyup.enter="sendDreamChat()" class="flex-1 bg-slate-50 border-none outline-none font-bold text-slate-700 px-4 py-3 rounded-2xl placeholder-slate-400 text-sm" placeholder="พิมพ์ความฝันของคุณ...">
+          <button @click="sendDreamChat()" :disabled="!dreamText || isBotTyping" class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-md active:scale-90 transition-transform disabled:opacity-50 shrink-0"><svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
         </div>
       </div>
 
       <div x-show="tab === 'ความแม่น'" x-cloak x-transition.opacity.duration.300ms class="mt-2">
-        <div class="glass-card p-6 mb-6">
-          <h2 class="font-black text-slate-800 mb-2 text-xl">⚙️ ปรับโหมด Engine</h2>
-          <div class="space-y-4 mt-5"><template x-for="mode in engines">
-              <div @click="form.engineMode = mode.id"
-                :class="form.engineMode === mode.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 shadow-md shadow-emerald-100 dark:shadow-none' : 'border-slate-100 bg-white'"
-                class="p-5 border-2 rounded-2xl cursor-pointer transition-all flex justify-between items-center">
-                <div>
-                  <h3 class="font-black text-[15px] text-slate-800 mb-1" x-text="mode.title"></h3>
-                  <p class="text-[11px] text-slate-500 font-medium" x-text="mode.desc"></p>
-                </div>
-                <div x-show="form.engineMode === mode.id"
-                  class="text-emerald-500 bg-white dark:bg-slate-800 p-1 rounded-full shadow-sm"><svg class="w-6 h-6"
-                    fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clip-rule="evenodd"></path>
-                  </svg></div>
-              </div>
-            </template></div>
-        </div>
-        <div class="glass-card p-6">
-          <div class="flex justify-between items-center mb-6">
-            <div>
-              <h2 class="font-black text-slate-800 text-xl mb-1">🔢 บังคับ/แบนเลข</h2>
-            </div><button @click="resetNumStates()"
-              class="text-xs font-bold bg-slate-100 text-slate-500 px-4 py-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">รีเซ็ต</button>
-          </div>
-          <div class="flex gap-4 mb-5 text-[10px] font-bold">
-            <div
-              class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg border border-emerald-100 dark:border-emerald-800/50">
-              <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> บังคับให้มา</div>
-            <div
-              class="flex items-center gap-1.5 text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/30 px-2 py-1 rounded-lg border border-rose-100 dark:border-rose-800/50">
-              <span class="w-2.5 h-2.5 bg-rose-500 rounded-full"></span> แบน (ตัดทิ้ง)</div>
-          </div>
-          <div class="grid grid-cols-5 gap-3"><template x-for="i in [0,1,2,3,4,5,6,7,8,9]"><button
-                @click="toggleState(i)" :class="getStateClass(i)"
-                class="h-16 rounded-2xl font-black transition-all relative text-2xl"><span x-text="i"></span>
-                <div x-show="form.numStates[i] === 'force'"
-                  class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-emerald-500 rounded-full border-[3px] border-white dark:border-slate-800 flex items-center justify-center">
-                  <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
-                  </svg></div>
-                <div x-show="form.numStates[i] === 'ban'"
-                  class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 rounded-full border-[3px] border-white dark:border-slate-800 flex items-center justify-center">
-                  <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12">
-                    </path>
-                  </svg></div>
-              </button></template></div>
+        <div class="glass-card p-6 mb-6"><h2 class="font-black text-slate-800 mb-2 text-xl">⚙️ ปรับโหมด Engine</h2><div class="space-y-4 mt-5"><template x-for="mode in engines"><div @click="form.engineMode = mode.id" :class="form.engineMode === mode.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 shadow-md shadow-emerald-100 dark:shadow-none' : 'border-slate-100 bg-white'" class="p-5 border-2 rounded-2xl cursor-pointer transition-all flex justify-between items-center"><div><h3 class="font-black text-[15px] text-slate-800 mb-1" x-text="mode.title"></h3><p class="text-[11px] text-slate-500 font-medium" x-text="mode.desc"></p></div><div x-show="form.engineMode === mode.id" class="text-emerald-500 bg-white dark:bg-slate-800 p-1 rounded-full shadow-sm"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></div></div></template></div></div>
+        <div class="glass-card p-6"><div class="flex justify-between items-center mb-6"><div><h2 class="font-black text-slate-800 text-xl mb-1">🔢 บังคับ/แบนเลข</h2></div><button @click="resetNumStates()" class="text-xs font-bold bg-slate-100 text-slate-500 px-4 py-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">รีเซ็ต</button></div>
+          <div class="flex gap-4 mb-5 text-[10px] font-bold"><div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg border border-emerald-100 dark:border-emerald-800/50"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> บังคับให้มา</div><div class="flex items-center gap-1.5 text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/30 px-2 py-1 rounded-lg border border-rose-100 dark:border-rose-800/50"><span class="w-2.5 h-2.5 bg-rose-500 rounded-full"></span> แบน (ตัดทิ้ง)</div></div>
+          <div class="grid grid-cols-5 gap-3"><template x-for="i in [0,1,2,3,4,5,6,7,8,9]"><button @click="toggleState(i)" :class="getStateClass(i)" class="h-16 rounded-2xl font-black transition-all relative text-2xl"><span x-text="i"></span><div x-show="form.numStates[i] === 'force'" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-emerald-500 rounded-full border-[3px] border-white dark:border-slate-800 flex items-center justify-center"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div><div x-show="form.numStates[i] === 'ban'" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 rounded-full border-[3px] border-white dark:border-slate-800 flex items-center justify-center"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12"></path></svg></div></button></template></div>
         </div>
       </div>
 
       <div x-show="tab === 'ประวัติ'" x-cloak x-transition.opacity.duration.300ms class="mt-2">
-        <div class="flex justify-between items-center mb-6 px-2">
-          <h2 class="font-black text-slate-800 text-xl flex items-center gap-2">📝 ประวัติล่าสุด</h2><button
-            @click="fetchHistory()"
-            class="text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 rounded-xl font-bold flex items-center gap-1.5 hover:bg-emerald-100 transition-colors">รีเฟรช</button>
-        </div>
+        <div class="flex justify-between items-center mb-6 px-2"><h2 class="font-black text-slate-800 text-xl flex items-center gap-2">📝 ประวัติล่าสุด</h2><button @click="fetchHistory()" class="text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 rounded-xl font-bold flex items-center gap-1.5 hover:bg-emerald-100 transition-colors">รีเฟรช</button></div>
         <div class="space-y-4">
-          <div x-show="loadingHistory" class="glass-card py-16 text-sm flex flex-col items-center justify-center gap-3">
-            <div class="w-8 h-8 border-4 border-emerald-100 border-t-emerald-500 rounded-full animate-spin"></div><span
-              class="text-slate-500 font-bold">กำลังซิงค์ข้อมูล...</span>
-          </div>
-          <div x-show="!loadingHistory && history.length === 0"
-            class="glass-card text-center text-slate-400 py-16 font-bold">ยังไม่มีประวัติการวิเคราะห์</div>
+          <div x-show="loadingHistory" class="glass-card py-16 text-sm flex flex-col items-center justify-center gap-3"><div class="w-8 h-8 border-4 border-emerald-100 border-t-emerald-500 rounded-full animate-spin"></div><span class="text-slate-500 font-bold">กำลังซิงค์ข้อมูล...</span></div>
+          <div x-show="!loadingHistory && history.length === 0" class="glass-card text-center text-slate-400 py-16 font-bold">ยังไม่มีประวัติการวิเคราะห์</div>
           <template x-for="(item, index) in history" :key="index">
-            <div x-data="{ expanded: false }"
-              class="glass-card overflow-hidden border border-emerald-50 dark:border-slate-700">
-              <div @click="expanded = !expanded"
-                class="p-5 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                <div>
-                  <div class="flex gap-2 items-center mb-1.5"><span class="text-[15px] font-black text-slate-800"
-                      x-text="item.type"></span><span
-                      class="text-[9px] bg-slate-800 text-white px-2 py-0.5 rounded-md font-bold uppercase"
-                      x-text="'โหมด ' + item.mode"></span></div>
-                  <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mb-1"
-                    x-text="'เลขที่กรอก: ' + item.input"></p>
-                  <p class="text-[10px] text-slate-400 font-medium" x-text="item.time"></p>
-                </div>
-                <div class="flex items-center gap-3"><span
-                    class="text-lg font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2.5 rounded-xl border border-emerald-100 dark:border-emerald-800/50 shadow-sm"
-                    x-text="item.result"></span>
-                  <div x-show="item.combosTwo || item.combosThree"
-                    class="text-slate-400 transition-transform duration-300" :class="expanded ? 'rotate-180' : ''"><svg
-                      class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg></div>
-                </div>
+            <div x-data="{ expanded: false }" class="glass-card overflow-hidden border border-emerald-50 dark:border-slate-700">
+              <div @click="expanded = !expanded" class="p-5 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                <div><div class="flex gap-2 items-center mb-1.5"><span class="text-[15px] font-black text-slate-800" x-text="item.type"></span><span class="text-[9px] bg-slate-800 text-white px-2 py-0.5 rounded-md font-bold uppercase" x-text="'โหมด ' + item.mode"></span></div><p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mb-1" x-text="'เลขที่กรอก: ' + item.input"></p><p class="text-[10px] text-slate-400 font-medium" x-text="item.time"></p></div>
+                <div class="flex items-center gap-3"><span class="text-lg font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2.5 rounded-xl border border-emerald-100 dark:border-emerald-800/50 shadow-sm" x-text="item.result"></span><div x-show="item.combosTwo || item.combosThree" class="text-slate-400 transition-transform duration-300" :class="expanded ? 'rotate-180' : ''"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div></div>
               </div>
-              <div x-show="expanded && (item.combosTwo || item.combosThree)" x-collapse
-                class="bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700 p-5 space-y-4">
-                <div x-show="item.combosTwo"><span
-                    class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">✌️ เลข 2 ตัว
-                    (บน-ล่าง)</span>
-                  <p class="text-sm font-bold text-slate-700 leading-relaxed" x-text="item.combosTwo"></p>
-                </div>
-                <div x-show="item.combosThree"><span
-                    class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">🤟 เลข 3 ตัว
-                    (เต็ง-โต๊ด)</span>
-                  <p class="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-relaxed"
-                    x-text="item.combosThree"></p>
-                </div>
+              <div x-show="expanded && (item.combosTwo || item.combosThree)" x-collapse class="bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700 p-5 space-y-4">
+                <div x-show="item.combosTwo"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">✌️ เลข 2 ตัว (บน-ล่าง)</span><p class="text-sm font-bold text-slate-700 leading-relaxed" x-text="item.combosTwo"></p></div>
+                <div x-show="item.combosThree"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">🤟 เลข 3 ตัว (เต็ง-โต๊ด)</span><p class="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-relaxed" x-text="item.combosThree"></p></div>
               </div>
             </div>
           </template>
@@ -629,14 +243,14 @@
   <script>
     // ⚠️⚠️⚠️ ใส่ API URL ของ Google Script ตรงนี้ ⚠️⚠️⚠️
     const API_URL = "https://script.google.com/macros/s/AKfycbzBhiE6xAsqS-Gs74i1jYi8xtQTcJQSt-M-32UL8VURKpkW_vVukyVQkSFkZSCmOc9vFQ/exec";
-
+    
     function lottoApp() {
       return {
         isLoggedIn: false, authMode: 'login', authData: { username: '', password: '' }, username: '',
         tab: 'สถิติ', isMenuOpen: false, loading: false, loadingHistory: false, result: null, history: [], combos: { two: [], three: [] },
         toast: { show: false, msg: '', icon: '' }, currentDayName: '', chartsRendered: false,
         dreamText: '', isBotTyping: false, chatHistory: [],
-
+        
         // 🌙 Dark Mode & 🔔 Notification
         isDarkMode: false,
         notificationEnabled: false,
@@ -647,31 +261,31 @@
           { name: 'ม้าสีหมอก', icon: '🐴', desc: 'เลขวิ่งเข้าเป้าบ่อย', numbers: ['2', '9'], accuracy: 82 },
           { name: 'ทะเบียนรถนายก', icon: '🚗', desc: 'กระแสแรงที่สุดงวดนี้', numbers: ['95', '14'], accuracy: 90 }
         ],
-        engines: [{ id: 'A', title: 'ความถี่สูงสุด', desc: 'นับเลขที่ติด Top 5 บ่อยที่สุด' }, { id: 'B', title: 'ลำดับคะแนน', desc: 'ให้คะแนนตามอันดับที่ออก' }, { id: 'C', title: 'คะแนนดิบ', desc: 'ใช้คะแนนความแม่นยำรวม' }],
-        form: { lotteryType: 'รัฐบาลไทย', inputNumbers: '', engineMode: 'A', numStates: { '0': 'normal', '1': 'normal', '2': 'normal', '3': 'normal', '4': 'normal', '5': 'normal', '6': 'normal', '7': 'normal', '8': 'normal', '9': 'normal' } },
+        engines: [{ id: 'A', title: 'ความถี่สูงสุด', desc: 'นับเลขที่ติด Top 5 บ่อยที่สุด' },{ id: 'B', title: 'ลำดับคะแนน', desc: 'ให้คะแนนตามอันดับที่ออก' },{ id: 'C', title: 'คะแนนดิบ', desc: 'ใช้คะแนนความแม่นยำรวม' }],
+        form: { lotteryType: 'รัฐบาลไทย', inputNumbers: '', engineMode: 'A', numStates: { '0':'normal', '1':'normal', '2':'normal', '3':'normal', '4':'normal', '5':'normal', '6':'normal', '7':'normal', '8':'normal', '9':'normal' } },
 
-        initApp() {
+        initApp() { 
           // โหลดการตั้งค่า Dark Mode
           this.isDarkMode = localStorage.getItem('lottoDarkMode') === 'true';
-          if (this.isDarkMode) document.documentElement.classList.add('dark');
+          if(this.isDarkMode) document.documentElement.classList.add('dark');
 
           const savedUser = localStorage.getItem('lottoUser');
-          if (savedUser) {
-            this.username = savedUser; this.isLoggedIn = true; this.fetchHistory();
-            if (this.tab === 'สถิติ') setTimeout(() => this.renderCharts(), 100);
-            if (Notification.permission === "granted") this.notificationEnabled = true;
+          if (savedUser) { 
+            this.username = savedUser; this.isLoggedIn = true; this.fetchHistory(); 
+            if(this.tab === 'สถิติ') setTimeout(() => this.renderCharts(), 100); 
+            if(Notification.permission === "granted") this.notificationEnabled = true;
           }
-          this.setDayName();
+          this.setDayName(); 
         },
 
         // 🌙 ฟังก์ชันสลับโหมดกลางคืน
         toggleDarkMode() {
           this.isDarkMode = !this.isDarkMode;
           localStorage.setItem('lottoDarkMode', this.isDarkMode);
-          if (this.isDarkMode) { document.documentElement.classList.add('dark'); }
+          if (this.isDarkMode) { document.documentElement.classList.add('dark'); } 
           else { document.documentElement.classList.remove('dark'); }
           // รีเฟรชสีกราฟถ้าอยู่หน้าสถิติ
-          if (this.tab === 'สถิติ') { this.chartsRendered = false; this.renderCharts(); }
+          if(this.tab === 'สถิติ') { this.chartsRendered = false; this.renderCharts(); }
         },
 
         requestNotification() {
@@ -685,51 +299,51 @@
         },
 
         async handleAuth() {
-          if (!this.authData.username || !this.authData.password) return this.showToast('กรุณากรอกข้อมูลให้ครบ', '⚠️');
+          if(!this.authData.username || !this.authData.password) return this.showToast('กรุณากรอกข้อมูลให้ครบ', '⚠️');
           this.loading = true;
           try {
             const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: this.authMode, data: this.authData }) });
             const data = await res.json();
-            if (data.status === 'success') {
-              if (this.authMode === 'login') {
+            if(data.status === 'success') {
+              if(this.authMode === 'login') {
                 this.username = data.username; this.isLoggedIn = true; localStorage.setItem('lottoUser', data.username);
                 this.fetchHistory(); this.tab = 'สถิติ'; setTimeout(() => this.renderCharts(), 200);
                 this.showToast('เข้าสู่ระบบสำเร็จ!', '✅');
               } else { this.showToast('สมัครสมาชิกสำเร็จ กรุณาเข้าสู่ระบบ', '🎉'); this.authMode = 'login'; this.authData.password = ''; }
             } else { this.showToast(data.message, '❌'); }
-          } catch (e) { this.showToast('การเชื่อมต่อล้มเหลว', '🔌'); } this.loading = false;
+          } catch(e) { this.showToast('การเชื่อมต่อล้มเหลว', '🔌'); } this.loading = false;
         },
         logout() { localStorage.removeItem('lottoUser'); location.reload(); },
         setDayName() { const days = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์']; this.currentDayName = days[new Date().getDay()]; },
-
-        switchTab(t) {
-          this.tab = t; this.isMenuOpen = false;
-          if (t === 'ประวัติ') this.fetchHistory();
-          if (t === 'สถิติ') { this.chartsRendered = false; this.renderCharts(); }
-          if (t === 'ทำนายฝัน' && this.chatHistory.length === 0) this.scrollToBottom();
+        
+        switchTab(t) { 
+          this.tab = t; this.isMenuOpen = false; 
+          if(t === 'ประวัติ') this.fetchHistory(); 
+          if(t === 'สถิติ') { this.chartsRendered = false; this.renderCharts(); }
+          if(t === 'ทำนายฝัน' && this.chatHistory.length === 0) this.scrollToBottom();
         },
 
         sendDreamChat() {
-          if (!this.dreamText.trim()) return;
+          if(!this.dreamText.trim()) return;
           const userMsg = this.dreamText;
           this.chatHistory.push({ sender: 'user', text: userMsg });
           this.dreamText = ''; this.isBotTyping = true; this.scrollToBottom();
 
           setTimeout(() => {
             const text = userMsg.toLowerCase();
-            const dict = [{ keys: ['บวช', 'พระ', 'วัด', 'ทำบุญ', 'สวดมนต์'], meaning: 'การฝันเห็นสิ่งศักดิ์สิทธิ์หรือการทำบุญ ถือเป็นมงคลยิ่งครับ 🌟 จะได้รับข่าวดีเรื่องหน้าที่การงาน หรือจะหมดเคราะห์หมดโศก มีเกณฑ์ได้รับโชคจากผู้ใหญ่ครับ', base: [8, 9, 2, 0, 7] }, { keys: ['บ้าน', 'สร้างบ้าน', 'ย้ายบ้าน', 'ซื้อบ้าน'], meaning: 'ฝันเกี่ยวกับบ้าน 🏡 หมายถึงความมั่นคงครับ การงานจะมีความมั่นคงมากขึ้น ครอบครัวจะร่มเย็นเป็นสุข หากมีหนี้สินก็จะเริ่มคลี่คลายครับ', base: [0, 4, 7, 5, 9] }, { keys: ['รถ', 'ขับรถ', 'รถชน', 'ซื้อรถ', 'มอไซค์'], meaning: 'ฝันเห็นพาหนะ 🚗 มีเกณฑ์จะได้เดินทางไกลครับ หรือจะได้ลาภลอยจากการเดินทาง ลองเอาป้ายทะเบียนไปเสี่ยงโชคดูนะครับ', base: [4, 7, 8, 2, 6] }, { keys: ['ไฟไหม้', 'ไฟ', 'ไหม้บ้าน'], meaning: 'แม้จะดูน่ากลัว แต่นี่คือฝันร้ายกลายเป็นดีครับ! 🔥 จะหมดเคราะห์ โชคลาภกำลังจะเข้ามาอย่างไม่ทันตั้งตัวครับ', base: [3, 0, 9, 4, 7] }, { keys: ['ขี้', 'อุจจาระ', 'ส้วม', 'เปื้อนขี้'], meaning: 'ยินดีด้วยครับ! นี่เป็นสุดยอดความฝันรับทรัพย์ 💩 มีเกณฑ์ได้รับโชคลาภจากการเสี่ยงโชค ได้รับเงินก้อนโต หรือได้โบนัสพิเศษครับ!', base: [2, 5, 6, 7, 4, 1] }, { keys: ['งู', 'พญานาค', 'งูกัด', 'งูรัด'], meaning: 'ฝันยอดฮิตเลยครับ 🐍 จะมีโชคด้านความรัก คนโสดจะเจอเนื้อคู่ หรืออาจมีโชคลาภก้อนใหญ่จากการเสี่ยงดวงครับ', base: [5, 6, 8, 9, 0] }, { keys: ['น้ำ', 'ฝน', 'ว่ายน้ำ', 'จมน้ำ', 'น้ำท่วม'], meaning: 'ฝันเกี่ยวกับน้ำ 💧 สื่อถึงชีวิตจะร่มเย็นเป็นสุข เรื่องร้ายจะผ่านไป การลงทุนค้าขายจะได้กำไรดี มีคนคอยอุปถัมภ์ครับ', base: [1, 2, 7, 0, 5] }, { keys: ['คนตาย', 'ศพ', 'ผี', 'งานศพ', 'โลง'], meaning: 'ความฝันแบบนี้ 👻 หมายถึงจะหมดเคราะห์ เคราะห์ร้ายกลายเป็นดี หรืออาจได้รับโชคลาภแบบไม่คาดฝันครับ', base: [0, 4, 9, 8, 2] }, { keys: ['ทอง', 'เงิน', 'แหวน', 'เพชร', 'สร้อย'], meaning: 'ฝันเห็นของมีค่า 💍 มีเกณฑ์จะได้รับทรัพย์ก้อนใหญ่ ประสบความสำเร็จในสิ่งที่หวังไว้ สมปรารถนาด้านการเงินครับ', base: [4, 6, 8, 2, 1] }, { keys: ['เด็ก', 'ทารก', 'ท้อง', 'คลอดลูก'], meaning: 'ฝันเห็นเด็กทารก 👶 จะมีโชคลาภจากการเริ่มต้นสิ่งใหม่ๆ ได้รับข่าวดีเรื่องบริวาร หรือธุรกิจที่ทำอยู่จะเจริญรุ่งเรืองครับ', base: [1, 3, 7, 5, 0] }, { keys: ['ปลา', 'จับปลา', 'กินปลา'], meaning: 'ฝันว่าจับปลา 🐟 จะมีโชคลาภเข้ามาเรื่อยๆ ทำมาค้าขึ้น หยิบจับอะไรก็เป็นเงินเป็นทอง เป็นช่วงน้ำขึ้นให้รีบตักครับ', base: [8, 7, 2, 1, 0] }];
-
+            const dict = [{ keys: ['บวช', 'พระ', 'วัด', 'ทำบุญ', 'สวดมนต์'], meaning: 'การฝันเห็นสิ่งศักดิ์สิทธิ์หรือการทำบุญ ถือเป็นมงคลยิ่งครับ 🌟 จะได้รับข่าวดีเรื่องหน้าที่การงาน หรือจะหมดเคราะห์หมดโศก มีเกณฑ์ได้รับโชคจากผู้ใหญ่ครับ', base: [8, 9, 2, 0, 7] },{ keys: ['บ้าน', 'สร้างบ้าน', 'ย้ายบ้าน', 'ซื้อบ้าน'], meaning: 'ฝันเกี่ยวกับบ้าน 🏡 หมายถึงความมั่นคงครับ การงานจะมีความมั่นคงมากขึ้น ครอบครัวจะร่มเย็นเป็นสุข หากมีหนี้สินก็จะเริ่มคลี่คลายครับ', base: [0, 4, 7, 5, 9] },{ keys: ['รถ', 'ขับรถ', 'รถชน', 'ซื้อรถ', 'มอไซค์'], meaning: 'ฝันเห็นพาหนะ 🚗 มีเกณฑ์จะได้เดินทางไกลครับ หรือจะได้ลาภลอยจากการเดินทาง ลองเอาป้ายทะเบียนไปเสี่ยงโชคดูนะครับ', base: [4, 7, 8, 2, 6] },{ keys: ['ไฟไหม้', 'ไฟ', 'ไหม้บ้าน'], meaning: 'แม้จะดูน่ากลัว แต่นี่คือฝันร้ายกลายเป็นดีครับ! 🔥 จะหมดเคราะห์ โชคลาภกำลังจะเข้ามาอย่างไม่ทันตั้งตัวครับ', base: [3, 0, 9, 4, 7] },{ keys: ['ขี้', 'อุจจาระ', 'ส้วม', 'เปื้อนขี้'], meaning: 'ยินดีด้วยครับ! นี่เป็นสุดยอดความฝันรับทรัพย์ 💩 มีเกณฑ์ได้รับโชคลาภจากการเสี่ยงโชค ได้รับเงินก้อนโต หรือได้โบนัสพิเศษครับ!', base: [2, 5, 6, 7, 4, 1] },{ keys: ['งู', 'พญานาค', 'งูกัด', 'งูรัด'], meaning: 'ฝันยอดฮิตเลยครับ 🐍 จะมีโชคด้านความรัก คนโสดจะเจอเนื้อคู่ หรืออาจมีโชคลาภก้อนใหญ่จากการเสี่ยงดวงครับ', base: [5, 6, 8, 9, 0] },{ keys: ['น้ำ', 'ฝน', 'ว่ายน้ำ', 'จมน้ำ', 'น้ำท่วม'], meaning: 'ฝันเกี่ยวกับน้ำ 💧 สื่อถึงชีวิตจะร่มเย็นเป็นสุข เรื่องร้ายจะผ่านไป การลงทุนค้าขายจะได้กำไรดี มีคนคอยอุปถัมภ์ครับ', base: [1, 2, 7, 0, 5] },{ keys: ['คนตาย', 'ศพ', 'ผี', 'งานศพ', 'โลง'], meaning: 'ความฝันแบบนี้ 👻 หมายถึงจะหมดเคราะห์ เคราะห์ร้ายกลายเป็นดี หรืออาจได้รับโชคลาภแบบไม่คาดฝันครับ', base: [0, 4, 9, 8, 2] },{ keys: ['ทอง', 'เงิน', 'แหวน', 'เพชร', 'สร้อย'], meaning: 'ฝันเห็นของมีค่า 💍 มีเกณฑ์จะได้รับทรัพย์ก้อนใหญ่ ประสบความสำเร็จในสิ่งที่หวังไว้ สมปรารถนาด้านการเงินครับ', base: [4, 6, 8, 2, 1] },{ keys: ['เด็ก', 'ทารก', 'ท้อง', 'คลอดลูก'], meaning: 'ฝันเห็นเด็กทารก 👶 จะมีโชคลาภจากการเริ่มต้นสิ่งใหม่ๆ ได้รับข่าวดีเรื่องบริวาร หรือธุรกิจที่ทำอยู่จะเจริญรุ่งเรืองครับ', base: [1, 3, 7, 5, 0] },{ keys: ['ปลา', 'จับปลา', 'กินปลา'], meaning: 'ฝันว่าจับปลา 🐟 จะมีโชคลาภเข้ามาเรื่อยๆ ทำมาค้าขึ้น หยิบจับอะไรก็เป็นเงินเป็นทอง เป็นช่วงน้ำขึ้นให้รีบตักครับ', base: [8, 7, 2, 1, 0] }];
+            
             let matched = dict.find(item => item.keys.some(k => text.includes(k)));
             let responseText = ""; let b = [];
 
-            if (!matched) {
-              const fallbacks = ['เป็นความฝันที่สื่อถึงการเปลี่ยนแปลงในชีวิตครับ ช่วงนี้ให้หมั่นทำบุญเสริมดวง โชคลาภกำลังจะเดินทางมา', 'ความฝันนี้เป็นลางบอกเหตุถึงโอกาสใหม่ๆ ที่กำลังจะเข้ามา ลองเปิดใจรับสิ่งใหม่ แล้วจะพบกับความโชคดีครับ', 'ช่วงนี้อาจมีความกังวลใจซ่อนอยู่ แต่ไม่ต้องห่วงครับ ปัญหาทุกอย่างจะคลี่คลาย และจะมีโชคเข้ามาปลอบใจ', 'เป็นฝันที่สื่อถึงพลังงานบวกครับ สิ่งที่คิดหรือหวังไว้มีโอกาสสำเร็จสูง ลองเสี่ยงโชคดูสักนิดอาจจะรวยไม่รู้ตัว!'];
-              responseText = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-              b = [Math.floor(Math.random() * 9), Math.floor(Math.random() * 9) + 1, Math.floor(Math.random() * 9), Math.floor(Math.random() * 9) + 1];
+            if (!matched) { 
+              const fallbacks = ['เป็นความฝันที่สื่อถึงการเปลี่ยนแปลงในชีวิตครับ ช่วงนี้ให้หมั่นทำบุญเสริมดวง โชคลาภกำลังจะเดินทางมา','ความฝันนี้เป็นลางบอกเหตุถึงโอกาสใหม่ๆ ที่กำลังจะเข้ามา ลองเปิดใจรับสิ่งใหม่ แล้วจะพบกับความโชคดีครับ','ช่วงนี้อาจมีความกังวลใจซ่อนอยู่ แต่ไม่ต้องห่วงครับ ปัญหาทุกอย่างจะคลี่คลาย และจะมีโชคเข้ามาปลอบใจ','เป็นฝันที่สื่อถึงพลังงานบวกครับ สิ่งที่คิดหรือหวังไว้มีโอกาสสำเร็จสูง ลองเสี่ยงโชคดูสักนิดอาจจะรวยไม่รู้ตัว!']; 
+              responseText = fallbacks[Math.floor(Math.random() * fallbacks.length)]; 
+              b = [Math.floor(Math.random()*9), Math.floor(Math.random()*9)+1, Math.floor(Math.random()*9), Math.floor(Math.random()*9)+1];
             } else { responseText = matched.meaning; b = [...matched.base]; }
 
-            while (b.length < 5) b.push((b[b.length - 1] + 3) % 10);
-            const pick = (arr, n) => [...arr].sort(() => 0.5 - Math.random()).slice(0, n);
+            while(b.length < 5) b.push((b[b.length-1] + 3) % 10); 
+            const pick = (arr, n) => [...arr].sort(()=>0.5-Math.random()).slice(0, n);
             let mainNum = pick(b, 3).join(''); let subNum = pick(b, 2).join('');
 
             responseText += `<br><br><span class="inline-block bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-3 py-1 rounded-lg mt-2 border border-emerald-200 dark:border-emerald-700">✨ เลขเด็ดนำโชค: <span class="font-black text-lg">${mainNum}</span>, <span class="font-black text-lg">${subNum}</span></span>`;
@@ -738,81 +352,76 @@
           }, 1500);
         },
 
-        scrollToBottom() { setTimeout(() => { const container = document.getElementById('chatContainer'); if (container) container.scrollTop = container.scrollHeight; }, 100); },
+        scrollToBottom() { setTimeout(() => { const container = document.getElementById('chatContainer'); if(container) container.scrollTop = container.scrollHeight; }, 100); },
         toggleState(i) { const c = this.form.numStates[i]; this.form.numStates[i] = c === 'normal' ? 'force' : (c === 'force' ? 'ban' : 'normal'); },
         getStateClass(i) { const s = this.form.numStates[i]; if (s === 'force') return 'bg-emerald-500 text-white border-emerald-600 shadow-inner scale-95'; if (s === 'ban') return 'bg-rose-50 border-rose-500 text-rose-700 opacity-60 scale-95'; return 'bg-slate-50 border-slate-200 text-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700'; },
-        resetNumStates() { this.form.numStates = { '0': 'normal', '1': 'normal', '2': 'normal', '3': 'normal', '4': 'normal', '5': 'normal', '6': 'normal', '7': 'normal', '8': 'normal', '9': 'normal' }; this.showToast('รีเซ็ตล็อคเลขแล้ว', '🔄'); },
+        resetNumStates() { this.form.numStates = { '0':'normal', '1':'normal', '2':'normal', '3':'normal', '4':'normal', '5':'normal', '6':'normal', '7':'normal', '8':'normal', '9':'normal' }; this.showToast('รีเซ็ตล็อคเลขแล้ว', '🔄'); },
         showToast(msg, icon = '🔔') { this.toast = { show: true, msg, icon }; setTimeout(() => { this.toast.show = false; }, 3000); },
         copyResult() { if (!this.result) return; navigator.clipboard.writeText(`✨ เลขเด่น ${this.form.lotteryType}: ${this.result.prediction.join('-')}\n✌️ 2 ตัว: ${this.combos.two.join(', ')}\n🤟 3 ตัว: ${this.combos.three.join(', ')}`).then(() => this.showToast('คัดลอกเรียบร้อย', '📋')); },
-
-        // 🎫 ฟังก์ชันสร้างสลิปหวย VIP
-        async shareAsVIPImage() {
-          if (!this.result) return this.showToast('ไม่มีข้อมูลให้แชร์', '⚠️');
-          const slip = document.getElementById('vip-slip');
-          slip.classList.remove('-left-[9999px]');
-          slip.classList.add('left-0', 'top-0', 'z-[-1]');
-
-          try {
-            // ให้พื้นหลังรูปเป็นสีดำทองพรีเมียม
-            const canvas = await html2canvas(slip, { scale: 2, backgroundColor: '#0f172a' });
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-
-            slip.classList.remove('left-0', 'top-0', 'z-[-1]');
-            slip.classList.add('-left-[9999px]');
-
-            if (navigator.share) {
-              try {
-                const blob = await (await fetch(dataUrl)).blob();
-                const file = new File([blob], `LOTTOAI-VIP-${this.form.lotteryType}.jpg`, { type: 'image/jpeg' });
-                await navigator.share({ title: 'สลิปหวย VIP - LOTTOAI', files: [file] });
-                return;
-              } catch (err) { }
-            }
-            const link = document.createElement('a'); link.download = `LOTTOAI-VIP-${this.form.lotteryType}.jpg`; link.href = dataUrl; link.click();
-            this.showToast('บันทึกสลิป VIP เรียบร้อย', '📸');
-          } catch (err) {
-            slip.classList.remove('left-0', 'top-0', 'z-[-1]'); slip.classList.add('-left-[9999px]');
-            this.showToast('เกิดข้อผิดพลาดในการสร้างสลิป', '❌');
-          }
+        
+        // 🖼️ พากลับมาใช้ระบบแชร์รูปเดิมที่เน้นแคปหน้าจอผลลัพธ์
+        async shareAsImage() { 
+          const watermark = document.getElementById('watermark'); 
+          // โชว์ลายน้ำก่อนแคป
+          watermark.classList.remove('hidden'); 
+          
+          try { 
+            const canvas = await html2canvas(document.getElementById('capture-area'), { 
+              scale: 2, 
+              // ตั้งสีพื้นหลังตามโหมดปัจจุบัน
+              backgroundColor: this.isDarkMode ? '#0f172a' : '#eefcf6' 
+            }); 
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.9); 
+            
+            // ซ่อนลายน้ำกลับ
+            watermark.classList.add('hidden'); 
+            
+            if (navigator.share) { 
+              try { 
+                const blob = await (await fetch(dataUrl)).blob(); 
+                const file = new File([blob], `LOTTOAI-${this.form.lotteryType}.jpg`, { type: 'image/jpeg' }); 
+                await navigator.share({ title: 'ผลวิเคราะห์ LOTTOAI PRO', files: [file] }); 
+                return; 
+              } catch (err) {} 
+            } 
+            const link = document.createElement('a'); link.download = `LOTTOAI-${this.form.lotteryType}.jpg`; link.href = dataUrl; link.click(); 
+            this.showToast('บันทึกรูปภาพเรียบร้อย', '📸'); 
+          } catch (err) { 
+            watermark.classList.add('hidden'); 
+            this.showToast('เกิดข้อผิดพลาดในการแชร์ภาพ', '❌'); 
+          } 
         },
 
         generateCombos(array, size) { let result = []; const combine = (prefix, arr) => { for (let i = 0; i < arr.length; i++) { if (prefix.length + 1 === size) result.push(prefix + arr[i]); else combine(prefix + arr[i], arr.slice(i + 1)); } }; combine('', array); return result; },
-
-        async fetchHistory() {
-          if (!this.username) return; this.loadingHistory = true; this.history = [];
-          try { const response = await fetch(`${API_URL}?action=getHistory&username=${this.username}`); const data = await response.json(); this.history = Array.isArray(data) ? data : []; } catch (error) { console.error("fetch history error"); } finally { this.loadingHistory = false; }
+        
+        async fetchHistory() { 
+          if(!this.username) return; this.loadingHistory = true; this.history = []; 
+          try { const response = await fetch(`${API_URL}?action=getHistory&username=${this.username}`); const data = await response.json(); this.history = Array.isArray(data) ? data : []; } catch (error) { console.error("fetch history error"); } finally { this.loadingHistory = false; } 
         },
-
-        async analyze() {
-          if (!this.form.inputNumbers) return this.showToast('กรุณากรอกเลขงวดล่าสุด', '⚠️');
-          this.loading = true; this.result = null; this.combos = { two: [], three: [] };
-          try {
-            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'analyze', data: this.form, username: this.username }) });
-            const data = await response.json(); this.result = data;
-            if (data.topTwo) {
-              this.combos.two = data.combosTwo || [];
-              this.combos.three = data.combosThree || [];
-            } else if (data.prediction && data.prediction.length >= 3) { 
-              this.combos.two = this.generateCombos(data.prediction, 2); 
-              this.combos.three = this.generateCombos(data.prediction, 3); 
-            }
-            this.showToast('ประมวลผลสำเร็จ!', '✨'); this.fetchHistory();
-          } catch (error) { this.showToast('เชื่อมต่อล้มเหลว', '❌'); } finally { this.loading = false; }
+        
+        async analyze() { 
+          if (!this.form.inputNumbers) return this.showToast('กรุณากรอกเลขงวดล่าสุด', '⚠️'); 
+          this.loading = true; this.result = null; this.combos = { two: [], three: [] }; 
+          try { 
+            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'analyze', data: this.form, username: this.username }) }); 
+            const data = await response.json(); this.result = data; 
+            if(data.prediction && data.prediction.length >= 3) { this.combos.two = this.generateCombos(data.prediction, 2); this.combos.three = this.generateCombos(data.prediction, 3); } 
+            this.showToast('ประมวลผลสำเร็จ!', '✨'); this.fetchHistory(); 
+          } catch (error) { this.showToast('เชื่อมต่อล้มเหลว', '❌'); } finally { this.loading = false; } 
         },
-
-        renderCharts() {
-          if (this.chartsRendered) return; this.chartsRendered = true;
-          setTimeout(() => {
-            Chart.defaults.font.family = 'Kanit';
+        
+        renderCharts() { 
+          if (this.chartsRendered) return; this.chartsRendered = true; 
+          setTimeout(() => { 
+            Chart.defaults.font.family = 'Kanit'; 
             // ปรับสีตัวอักษรกราฟตาม Dark Mode
             Chart.defaults.color = this.isDarkMode ? '#94a3b8' : '#64748b';
-
+            
             const ctx0 = document.getElementById('freqChart');
-            if (ctx0) {
+            if(ctx0) {
               const canvasContext = ctx0.getContext('2d');
               let gradient = canvasContext.createLinearGradient(0, 0, 0, 200);
-              gradient.addColorStop(0, this.isDarkMode ? 'rgba(96, 165, 250, 0.5)' : 'rgba(59, 130, 246, 0.4)');
-              gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+              gradient.addColorStop(0, this.isDarkMode ? 'rgba(96, 165, 250, 0.5)' : 'rgba(59, 130, 246, 0.4)'); gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
               new Chart(canvasContext, {
                 type: 'line',
                 data: {
@@ -823,15 +432,14 @@
               });
             }
 
-            const ctx1 = document.getElementById('engineChart');
-            if (ctx1) new Chart(ctx1.getContext('2d'), { type: 'bar', data: { labels: ['โหมด A', 'โหมด B', 'โหมด C'], datasets: [{ data: [78, 92, 65], backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b'], borderRadius: 6, barThickness: 35 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { borderDash: [5, 5] } }, x: { grid: { display: false } } } } });
-            const ctx2 = document.getElementById('formulaChart');
-            if (ctx2) new Chart(ctx2.getContext('2d'), { type: 'doughnut', data: { labels: ['บวกคงที่', 'คูณทะลวง', 'บวกไขว้', 'เลขเงา'], datasets: [{ data: [35, 20, 40, 5], backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b', '#ec4899'], borderWidth: 2, borderColor: this.isDarkMode ? '#1e293b' : '#ffffff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, font: { size: 10 } } } }, cutout: '65%' } });
-          }, 100);
+            const ctx1 = document.getElementById('engineChart'); 
+            if(ctx1) new Chart(ctx1.getContext('2d'), { type: 'bar', data: { labels: ['โหมด A', 'โหมด B', 'โหมด C'], datasets: [{ data: [78, 92, 65], backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b'], borderRadius: 6, barThickness: 35 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { borderDash: [5, 5] } }, x: { grid: { display: false } } } } }); 
+            const ctx2 = document.getElementById('formulaChart'); 
+            if(ctx2) new Chart(ctx2.getContext('2d'), { type: 'doughnut', data: { labels: ['บวกคงที่', 'คูณทะลวง', 'บวกไขว้', 'เลขเงา'], datasets: [{ data: [35, 20, 40, 5], backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b', '#ec4899'], borderWidth: 2, borderColor: this.isDarkMode ? '#1e293b' : '#ffffff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, font: { size: 10 } } } }, cutout: '65%' } }); 
+          }, 100); 
         }
       }
     }
   </script>
 </body>
-
 </html>
