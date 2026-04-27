@@ -403,13 +403,79 @@
           if (!this.form.inputNumbers) return this.showToast('กรุณากรอกเลขงวดล่าสุด', '⚠️'); 
           this.loading = true; this.result = null; this.combos = { two: [], three: [] }; 
           try { 
-            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'analyze', data: this.form, username: this.username }) }); 
-            const data = await response.json(); this.result = data; 
+            let data;
+            if (this.form.lotteryType === 'ลาวพัฒนา') {
+              await new Promise(r => setTimeout(r, 700));
+              data = this.analyzeLocal(this.form);
+            } else {
+              const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'analyze', data: this.form, username: this.username }) }); 
+              data = await response.json();
+            }
+            this.result = data; 
             if(data.prediction && data.prediction.length >= 3) { this.combos.two = this.generateCombos(data.prediction, 2); this.combos.three = this.generateCombos(data.prediction, 3); } 
-            this.showToast('ประมวลผลสำเร็จ!', '✨'); this.fetchHistory(); 
+            this.showToast('ประมวลผลสำเร็จ!', '✨');
+            if (this.form.lotteryType === 'ลาวพัฒนา') { await this.saveHistoryToAPI(data, this.form); }
+            this.fetchHistory();
           } catch (error) { this.showToast('เชื่อมต่อล้มเหลว', '❌'); } finally { this.loading = false; } 
         },
         
+        analyzeLocal(formData) {
+          const inputRaw = String(formData.inputNumbers || '0').replace(/\D/g, '');
+          const mode = formData.engineMode || 'A';
+          const numStates = formData.numStates || {};
+          let d;
+          if (inputRaw.length <= 2) {
+            const s = inputRaw.padStart(2, '0');
+            const d0 = +s[0], d1 = +s[1];
+            const d2 = (d0+d1)%10, d3 = (d0+d1+1)%10, d4 = (d1+2)%10, d5 = (d0+3)%10;
+            d = [d0,d1,d2,d3,d4,d5];
+          } else if (inputRaw.length <= 3) {
+            const s = inputRaw.padStart(3, '0');
+            const d0=+s[0],d1=+s[1],d2=+s[2];
+            d = [d0,d1,d2,(d1+d2)%10,(d0+d1)%10,(d0+d2)%10];
+          } else {
+            const s = inputRaw.padStart(6,'0').slice(0,6);
+            d = s.split('').map(Number);
+          }
+          const addR=[(d[0]+d[1])%10,(d[1]+d[2])%10,(d[2]+d[3])%10,(d[3]+d[4])%10,(d[4]+d[5])%10,(d[0]+d[5])%10,(d[0]+d[2])%10,(d[1]+d[3])%10,(d[2]+d[4])%10,(d[3]+d[5])%10,(d[0]+d[1]+d[2])%10,(d[1]+d[2]+d[3])%10,(d[2]+d[3]+d[4])%10,(d[3]+d[4]+d[5])%10,(d[0]+d[3]+d[5])%10,(d[0]+d[2]+d[4])%10,(d[1]+d[3]+d[5])%10,(d[0]+d[1]+d[5])%10,(d[0]+d[4]+d[5])%10,(d[0]+d[1]+d[2]+d[3]+d[4]+d[5])%10];
+          const mulR=[(d[0]*d[1])%10,(d[1]*d[2])%10,(d[2]*d[3])%10,(d[3]*d[4])%10,(d[4]*d[5])%10,(d[0]*d[5])%10,(d[0]*d[2]+d[1])%10,(d[1]*d[3]+d[2])%10,(d[2]*d[4]+d[3])%10,(d[3]*d[5]+d[4])%10,(d[0]*d[1]+d[2]*d[3])%10,(d[1]*d[2]+d[3]*d[4])%10,(d[2]*d[3]+d[4]*d[5])%10,(d[0]*d[3]+d[1]*d[5])%10,(d[0]*d[1]*d[2]+d[3]*d[4]*d[5])%10];
+          const crossR=[Math.abs(d[0]-d[1])%10,Math.abs(d[1]-d[2])%10,Math.abs(d[2]-d[3])%10,Math.abs(d[3]-d[4])%10,Math.abs(d[4]-d[5])%10,Math.abs(d[0]-d[5])%10,(d[0]+d[5]+Math.abs(d[2]-d[3]))%10,(d[1]+d[4]+Math.abs(d[0]-d[5]))%10,(d[0]+d[2]+d[4])%10,(d[1]+d[3]+d[5])%10,((d[0]+d[1])*(d[4]+d[5]))%10,((d[0]+d[2])*(d[3]+d[5]))%10,(d[0]*2+d[5])%10,(d[1]*2+d[4])%10,(d[2]*2+d[3])%10,(d[5]*2+d[0])%10,(d[0]+d[1]+d[2]+d[3])%10,(d[1]+d[2]+d[3]+d[4])%10,(d[2]+d[3]+d[4]+d[5])%10,Math.abs((d[0]+d[1])-(d[4]+d[5]))%10,Math.abs((d[0]+d[2])-(d[3]+d[5]))%10,(d[0]+d[1]*2+d[2])%10,(d[3]+d[4]*2+d[5])%10,((d[0]+d[5])*2+d[2])%10,((d[1]+d[4])*2+d[3])%10];
+          const shadowR=[(10-d[0])%10,(10-d[1])%10,(10-d[2])%10,(10-d[3])%10,(10-d[4])%10,(10-d[5])%10,(d[0]+5)%10,(d[1]+5)%10,(d[2]+5)%10,(d[3]+5)%10,(d[4]+5)%10,(d[5]+5)%10,(d[0]+d[5]+5)%10,(d[1]+d[4]+5)%10,(d[2]+d[3]+5)%10];
+          const all=[...addR,...mulR,...crossR,...shadowR];
+          const scores=[0,0,0,0,0,0,0,0,0,0];
+          if(mode==='A') all.forEach(v=>scores[v]+=1);
+          else if(mode==='B') all.forEach((v,i)=>scores[v]+=1.0+(i/all.length));
+          else all.forEach((v,i)=>scores[v]+=(i<20?1.5:i<35?2.0:i<60?2.5:1.0));
+          const hotBase=[4,7,8,5,3,6,9,7,2,5];
+          for(let i=0;i<=9;i++) scores[i]+=hotBase[i]*0.3;
+          const dc=[0,0,0,0,0,0,0,0,0,0];
+          d.forEach(v=>dc[v]++);
+          for(let i=0;i<=9;i++) scores[i]+=(dc[i]>=2?1.5:dc[i]===1?0.7:0);
+          scores[(d[4]+d[5])%10]+=1.0; scores[(d[0]+d[1]+d[2])%10]+=0.8; scores[(d[3]+d[4]+d[5])%10]+=0.8;
+          const now=new Date(); let nd=null;
+          for(let t=1;t<=7;t++){const c=new Date(now.getFullYear(),now.getMonth(),now.getDate()+t);const cd=c.getDay();if(cd===1||cd===3||cd===5){nd=c;break;}}
+          if(!nd) nd=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+          const dn=[[1,6],[2,7],[3,8],[4,9],[5,0],[6,1],[7,2]];
+          scores[dn[nd.getDay()][0]%10]+=2.0; scores[dn[nd.getDay()][1]%10]+=1.5;
+          const isum=d.reduce((a,b)=>a+b,0); scores[isum%10]+=1.5; scores[(isum%10+5)%10]+=0.5;
+          const forced=[],banned=[];
+          for(let i=0;i<=9;i++){const st=numStates[String(i)];if(st==='force')forced.push(i);if(st==='ban')banned.push(i);}
+          for(let i=0;i<=9;i++){if(banned.includes(i))scores[i]=-99999;if(forced.includes(i))scores[i]=99999;}
+          const ranked=[...Array(10).keys()].map(i=>({digit:i,score:scores[i]})).sort((a,b)=>b.score-a.score);
+          const pred=[...forced];
+          for(const {digit} of ranked){if(pred.length>=6)break;if(!pred.includes(digit)&&!banned.includes(digit))pred.push(digit);}
+          while(pred.length<5){const r=Math.floor(Math.random()*10);if(!pred.includes(r)&&!banned.includes(r))pred.push(r);}
+          const top5=pred.slice(0,5);
+          const cTwo=this.generateCombos(top5,2), cThree=this.generateCombos(top5,3);
+          return {status:'success',prediction:pred,topTwo:pred.slice(0,2),topFive:top5,combosTwo:cTwo,combosThree:cThree};
+        },
+
+        async saveHistoryToAPI(data, form) {
+          try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveHistory', username: this.username, data: { type: form.lotteryType, mode: form.engineMode || 'A', input: String(form.inputNumbers), result: data.prediction.join('-'), combosTwo: (data.combosTwo||[]).join(', '), combosThree: (data.combosThree||[]).join(', ') } }) });
+          } catch(e) { console.error('saveHistory error', e); }
+        },
+
         renderCharts() { 
           if (this.chartsRendered) return; this.chartsRendered = true; 
           setTimeout(() => { 
